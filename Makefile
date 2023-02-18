@@ -6,7 +6,7 @@
 #    By: rrouille <rrouille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/14 15:20:40 by rrouille          #+#    #+#              #
-#    Updated: 2023/02/16 20:29:31 by rrouille         ###   ########.fr        #
+#    Updated: 2023/02/18 11:09:29 by rrouille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,7 +92,7 @@ git: fclean
 
 clean:
 			@$(S_OBJS)
-			@$(RM) $(OBJDIR) mylib outfile
+			@$(RM) $(OBJDIR) mylib outfile output output.txt
 
 fclean: clean
 			@$(S_NAME)
