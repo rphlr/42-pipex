@@ -6,7 +6,7 @@
 /*   By: rrouille <rrouille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:29:52 by rrouille          #+#    #+#             */
-/*   Updated: 2023/02/17 20:34:04 by rrouille         ###   ########.fr       */
+/*   Updated: 2023/02/18 10:14:17 by rrouille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ typedef struct s_pipex
 {
 	int		infile;
 	int		outfile;
-	int		pipe_fds[2];
+//	int		pipe_fds[2];
 	char	*path_var;
-	int		nbr_of_commands;
+	int		command_count;
 	int		here_doc;
-	int		nbr_of_pipes;
-	int		*pipe;
+	int		pipes_count;
+	int		*pipe_fds;
 	char	**command_path_list;
 	char	**command_arg_list;
 	pid_t	pid;
