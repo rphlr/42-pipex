@@ -6,7 +6,7 @@
 /*   By: rrouille <rrouille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:29:52 by rrouille          #+#    #+#             */
-/*   Updated: 2023/02/18 14:18:01 by rrouille         ###   ########.fr       */
+/*   Updated: 2023/02/18 15:15:06 by rrouille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define RESET "\e[K"
 
 # define ARGUMENT_ERROR RED"Invalid number of arguments.\n"RESET
-# define INPUT_ERROR RED"Invalid input file.\n"RESET
+# define INPUT_ERROR RED"Input file does not exist.\n"RESET
 # define OUTPUT_ERROR RED"Invalid output file.\n"RESET
 # define HERE_DOC_ERROR RED"Temporary file creation or editing error for \
 here-document.\n"RESET
