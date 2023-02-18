@@ -6,12 +6,19 @@
 /*   By: rrouille <rrouille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:42:47 by rrouille          #+#    #+#             */
-/*   Updated: 2023/02/18 11:42:50 by rrouille         ###   ########.fr       */
+/*   Updated: 2023/02/18 13:25:29 by rrouille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * @brief	Closes file descriptors and frees memory associated with the
+ * 			t_pipex structure.
+ * @param	pipex	A pointer to the t_pipex structure containing file and pipe
+ * 					information.
+ * @return	void
+ */
 void	pipe_free(t_pipex *pipex)
 {
 	close(pipex->input);
@@ -23,6 +30,12 @@ void	pipe_free(t_pipex *pipex)
 	exit(1);
 }
 
+/**
+ * @brief	Frees memory associated with the t_pipex structure.
+ * @param	pipex	A pointer to the t_pipex structure containing file and pipe
+ * 					information.
+ * @return	void
+ */
 void	free_pipex(t_pipex *pipex)
 {
 	int	i;
@@ -37,6 +50,13 @@ void	free_pipex(t_pipex *pipex)
 	free(pipex->command);
 }
 
+/**
+ * @brief	Closes file descriptors and frees memory associated with the
+ * 			t_pipex structure.
+ * @param	pipex	A pointer to the t_pipex structure containing file and pipe
+ * 					information.
+ * @return	void
+ */
 void	free_ressources(t_pipex *pipex)
 {
 	int	i;

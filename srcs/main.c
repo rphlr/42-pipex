@@ -6,12 +6,21 @@
 /*   By: rrouille <rrouille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:33:01 by rrouille          #+#    #+#             */
-/*   Updated: 2023/02/18 11:59:13 by rrouille         ###   ########.fr       */
+/*   Updated: 2023/02/18 15:05:15 by rrouille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * @brief	The main function for the pipex program. Parses command-line
+ * 			arguments, sets up file and pipe communication, and runs the
+ * 			specified commands.
+ * @param	argc	The number of command-line arguments.
+ * @param	argv	An array of command-line argument strings.
+ * @param	env		An array of environment variable strings.
+ * @return	The exit status of the program.
+ */
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
@@ -29,11 +38,6 @@ int	main(int argc, char **argv, char **env)
 		return (0);
 	open_input_file(argv, &pipex);
 	open_output_file(argv[argc - 1], &pipex);
-	if (pipex.output < 0)
-	{
-		ft_printf("%s", OUTPUT_ERROR);
-		exit (1);
-	}
 	pipex.path_var = find_path_env(env);
 	pipex.command_path_list = ft_split(pipex.path_var, ':');
 	if (!pipex.command_path_list)

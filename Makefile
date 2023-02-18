@@ -6,7 +6,7 @@
 #    By: rrouille <rrouille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/14 15:20:40 by rrouille          #+#    #+#              #
-#    Updated: 2023/02/18 11:09:29 by rrouille         ###   ########.fr        #
+#    Updated: 2023/02/18 14:29:03 by rrouille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,24 +24,42 @@ SRCDIR		= srcs
 OBJDIR		= objs
 HDRDIR		= includes/
 
+# COLORS
+# Text styles
+BOLD		= \033[1m
+DIM			= \033[2m
+UNDERLINE	= \033[4m
+REVERSE		= \033[7m
 # Colors
-GRAY		= \033[0;90m
-RED			= \033[0;91m
-GREEN		= \033[0;92m
-YELLOW		= \033[0;93m
-BLUE		= \033[0;94m
-MAGENTA		= \033[0;95m
-CYAN		= \033[0;96m
-WHITE		= \033[0;97m
-BG_G		= \033[42m
-ENDCOLOR	= \033[0m
+GRAY		= \033[30m
+RED			= \033[31m
+GREEN		= \033[32m
+YELLOW		= \033[33m
+BLUE		= \033[34m
+PURPLE		= \033[35m
+CYAN		= \033[36m
+WHITE		= \033[37m
+# Background colors
+BG_GREY		= \033[40m
+BG_RED		= \033[41m
+BG_GREEN	= \033[42m
+BG_YELLOW	= \033[43m
+BG_BLUE		= \033[44m
+BG_PURPLE	= \033[45m
+BG_CYAN		= \033[46m
+BG_WHITE	= \033[47m
+# Formating
+HIDE_CURSOR	= \033[?25l
+SHOW_CURSOR	= \033[?25h
+MOVE_UP		= \033[1A
+ERASE		= \033[K
+# End
+RESET		= \033[0m
 
-#Sources
-
+# Sources
 SRCS	= ${shell find ${SRCDIR} -name '*.c' ! -name '*/*.c'}
 
 OBJS = $(patsubst $(SRCDIR)%,$(OBJDIR)%,$(SRCS:%.c=%.o))
-# OBJS	= ${SRCS:${SRCDIR}%.c=${OBJDIR}%.o} # $(filter-out $(SRCDIR)%,$(SRCS:%.c=$(OBJDIR)%.o))
 CFLAGS	= -Werror -Wall -Wextra -g
 CC		= gcc
 RM		= rm -rf
@@ -49,23 +67,40 @@ MAKE 	= make
 MKDIR	= mkdir
 
 # Progression bar
-START			=		echo "${YELLOW}\nStart of program compilation\n${ENDCOLOR}"
-END_COMP		=		echo "${GREEN}\nEnd of compilation${ENDCOLOR}"
-S_OBJS			=		echo "${RED}Suppression des objets\n${ENDCOLOR}"
-S_NAME			=		echo "${RED}Suppression du programme${ENDCOLOR}"
-CHARG_LINE		=		echo "${BG_G} ${ENDCOLOR}\c"
+START			=		echo "${YELLOW}\nStart of program compilation\n${RESET}"
+END_COMP		=		echo "${GREEN}\nEnd of compilation${RESET}"
+S_OBJS			=		echo "${RED}Suppression des objets\n${RESET}"
+S_NAME			=		echo "${RED}Suppression du programme${RESET}"
+CHARG_LINE		=		echo "${BG_GREEN} ${RESET}\c"
 BS_N			=		echo "\n"
 
 # First rule
-all:		${NAME}
+all:		draw ${NAME}
+
+draw:
+	@echo "${CYAN}                                                             "
+	@echo "██████╗ ██╗██████╗ ███████╗██╗  ██╗    ██╗  ██╗██████╗       "
+	@echo "██╔══██╗██║██╔══██╗██╔════╝╚██╗██╔╝    ██║  ██║╚════██╗      "
+	@echo "██████╔╝██║██████╔╝█████╗   ╚███╔╝     ███████║ █████╔╝      "
+	@echo "██╔═══╝ ██║██╔═══╝ ██╔══╝   ██╔██╗     ╚════██║██╔═══╝       "
+	@echo "██║     ██║██║     ███████╗██╔╝ ██╗         ██║███████╗      "
+	@echo "╚═╝     ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝         ╚═╝╚══════╝      "
+	@echo "                                                             "
+	@echo "██████╗ ██████╗  ██████╗ ██╗   ██╗██╗██╗     ██╗     ███████╗"
+	@echo "██╔══██╗██╔══██╗██╔═══██╗██║   ██║██║██║     ██║     ██╔════╝"
+	@echo "██████╔╝██████╔╝██║   ██║██║   ██║██║██║     ██║     █████╗  "
+	@echo "██╔══██╗██╔══██╗██║   ██║██║   ██║██║██║     ██║     ██╔══╝  "
+	@echo "██║  ██║██║  ██║╚██████╔╝╚██████╔╝██║███████╗███████╗███████╗"
+	@echo "╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝╚══════╝╚══════╝╚══════╝"
+	@echo "                                                             ${RESET}"
+
 
 ${OBJDIR}/%.o : ${SRCDIR}/%.c lib
-#			@cp mlx/mlx.h ${HDRDIR}
 			@$(CC) -I ${HDRDIR} -c $< -o $@
 
 lib :
 			@if [ -d mylib ]; then \
-				echo "${GREEN}Program already exists, updating it.${ENDCOLOR}"; \
+				echo "${GREEN}Program already exists, updating it.${RESET}"; \
 			else \
 				git clone https://github.com/rphlr/mylib --quiet; \
 				make -C mylib; \
@@ -80,6 +115,7 @@ $(NAME): $(OBJS)
 			echo ""; \
 			$(CC) $(CFLAGS) $(OBJS) mylib/objs/*/*.o -o $(NAME)
 			@${END_COMP}
+			@echo "\n${GREEN}${BOLD}${UNDERLINE}PROGRAM READY !${RESET}"
 
 # Git repo maker
 git: fclean
@@ -88,7 +124,7 @@ git: fclean
 			@git commit -m "Auto-commit"
 			@echo "${BLUE}Commited !"
 			@git push
-			@echo "${GREEN}All changed are now on github!${ENDCOLOR}"
+			@echo "${GREEN}All changed are now on github!${RESET}"
 
 clean:
 			@$(S_OBJS)

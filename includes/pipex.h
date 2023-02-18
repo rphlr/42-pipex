@@ -6,7 +6,7 @@
 /*   By: rrouille <rrouille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:29:52 by rrouille          #+#    #+#             */
-/*   Updated: 2023/02/18 11:58:15 by rrouille         ###   ########.fr       */
+/*   Updated: 2023/02/18 14:18:01 by rrouille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@
 # include <sys/wait.h>
 # include "../mylib/includes/mylib.h"
 
-# define ARGUMENT_ERROR "Invalid number of arguments.\n"
-# define INPUT_ERROR "Invalid input file.\n"
-# define OUTPUT_ERROR "Invalid output file.\n"
-# define HERE_DOC_ERROR "Temporary file creation or editing error for \
-here-document.\n"
-# define MISSING_ENV "Missing environment variable.\n"
+# define RED "\e[31m"
+# define RESET "\e[K"
+
+# define ARGUMENT_ERROR RED"Invalid number of arguments.\n"RESET
+# define INPUT_ERROR RED"Invalid input file.\n"RESET
+# define OUTPUT_ERROR RED"Invalid output file.\n"RESET
+# define HERE_DOC_ERROR RED"Temporary file creation or editing error for \
+here-document.\n"RESET
+# define MISSING_ENV RED"Missing environment variable.\n"RESET
 
 typedef struct s_pipex
 {

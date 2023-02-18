@@ -6,12 +6,20 @@
 /*   By: rrouille <rrouille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:43:42 by rrouille          #+#    #+#             */
-/*   Updated: 2023/02/18 12:00:28 by rrouille         ###   ########.fr       */
+/*   Updated: 2023/02/18 15:08:28 by rrouille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * @brief	Opens the input file based on the mode of input (here_doc or normal
+ * 			file input).
+ * @param	argv	A pointer to the array of command-line arguments.
+ * @param	pipex	A pointer to the t_pipex structure containing file and pipe
+ * 					information.
+ * @return	void
+ */
 void	open_input_file(char **argv, t_pipex *pipex)
 {
 	if (!ft_strncmp("here_doc", argv[1], 8))
@@ -27,6 +35,14 @@ void	open_input_file(char **argv, t_pipex *pipex)
 	}
 }
 
+/**
+ * @brief	Reads input from the user and saves it to a file until a delimiter
+ * 			is entered.
+ * @param	limiter	The delimiter string to signal the end of input.
+ * @param	pipex	A pointer to the t_pipex structure containing file and pipe
+ * 					information.
+ * @return	void
+ */
 void	get_heredoc_file(char *limiter, t_pipex *pipex)
 {
 	int		file;
@@ -42,7 +58,7 @@ void	get_heredoc_file(char *limiter, t_pipex *pipex)
 	{
 		write(1, "pipe heredoc> ", 14);
 		buf = get_next_line(0);
-		if (get_next_line(0) < 0)
+		if (buf < 0)
 			exit(1);
 		if (!ft_strncmp(limiter, buf, ft_strlen(limiter + 1)))
 			break ;
@@ -61,6 +77,14 @@ void	get_heredoc_file(char *limiter, t_pipex *pipex)
 	}
 }
 
+/**
+ * @brief	Opens the output file for writing, either overwriting or appending
+ * 			to the file, depending on the has_here_doc flag.
+ * @param	argv	A pointer to the output file name string.
+ * @param	pipex	A pointer to the t_pipex structure containing file and pipe
+ * 					information.
+ * @return	void
+ */
 void	open_output_file(char *argv, t_pipex *pipex)
 {
 	if (pipex->has_here_doc)
@@ -74,6 +98,16 @@ void	open_output_file(char *argv, t_pipex *pipex)
 	}
 }
 
+/**
+ * @brief	Checks the output file descriptor argument and sets the t_pipex
+ * 			has_here_doc flag.
+ * @param	output_fd_argument	A pointer to the output file descriptor
+ * 								argument string.
+ * @param	pipex				A pointer to the t_pipex structure containing
+ * 								file and pipe information.
+ * @return	The length of the output file descriptor argument, depending on the
+ * 			presence of the "here_doc" flag.
+ */
 int	check_command_arguments(char *output_fd_argument, t_pipex *pipex)
 {
 	if (!ft_strncmp("here_doc", output_fd_argument, 9))
