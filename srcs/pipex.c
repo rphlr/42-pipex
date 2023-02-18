@@ -6,7 +6,7 @@
 /*   By: rrouille <rrouille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:33:01 by rrouille          #+#    #+#             */
-/*   Updated: 2023/02/18 10:53:45 by rrouille         ###   ########.fr       */
+/*   Updated: 2023/02/18 10:57:10 by rrouille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,9 @@ void	open_output_file(char *argv, t_pipex *pipex)
 	}
 }
 
-int	check_command_arguments(char *first_argument, t_pipex *pipex)
+int	check_command_arguments(char *output_fd_argument, t_pipex *pipex)
 {
-	if (!ft_strncmp("here_doc", first_argument, 9))
+	if (!ft_strncmp("here_doc", output_fd_argument, 9))
 	{
 		pipex->here_doc = 1;
 		return (6);
@@ -180,10 +180,10 @@ static void	create_pipes(t_pipex *pipex)
 	}
 }
 
-static void	setup_pipe_communication(int zero, int first)
+static void	setup_pipe_communication(int input_fd, int output_fd)
 {
-	dup2(zero, 0);
-	dup2(first, 1);
+	dup2(input_fd, 0);
+	dup2(output_fd, 1);
 }
 
 
@@ -226,10 +226,9 @@ int	main(int argc, char **argv, char **env)
 	pipex.pipe_fds = (int *)malloc(sizeof(int) * pipex.pipes_count);
 	if (!pipex.pipe_fds)
 		return (0);
-	//ft_printf("%d\n", pipex.pipe_fds);
 	open_input_file(argv, &pipex);
-	open_output_file(argv[argc - 1], &pipex);
-	//pipex.outfile = open(argv[argc - 1], O_TRUNC | O_CREAT | O_RDWR, 0000644);
+	//open_output_file(argv[argc - 1], &pipex);
+	pipex.outfile = open(argv[argc - 1], O_TRUNC | O_CREAT | O_RDWR, 0000644);
 	if (pipex.outfile < 0)
 	{
 		ft_printf("%s", OUTFILE_ERROR);
@@ -249,7 +248,7 @@ int	main(int argc, char **argv, char **env)
 		run_commands(pipex, argv, env);
 	// pipex.command1_pid = fork();
 	// if (pipex.command1_pid == 0)
-	// 	execute_first_command(pipex, argc, argv, env);
+	// 	execute_output_fd_command(pipex, argc, argv, env);
 	// pipex.command2_pid = fork();
 	// if (pipex.command2_pid == 0)
 	// 	execute_second_command(pipex, argc, argv, env);
