@@ -6,7 +6,7 @@
 /*   By: rrouille <rrouille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:43:42 by rrouille          #+#    #+#             */
-/*   Updated: 2023/02/18 15:08:28 by rrouille         ###   ########.fr       */
+/*   Updated: 2023/02/18 15:30:18 by rrouille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,10 @@ void	open_input_file(char **argv, t_pipex *pipex)
 	}
 }
 
-/**
- * @brief	Reads input from the user and saves it to a file until a delimiter
- * 			is entered.
- * @param	limiter	The delimiter string to signal the end of input.
- * @param	pipex	A pointer to the t_pipex structure containing file and pipe
- * 					information.
- * @return	void
- */
-void	get_heredoc_file(char *limiter, t_pipex *pipex)
+void	get_heredoc_input(char *limiter, int file)
 {
-	int		file;
 	char	*buf;
 
-	file = open(".heredoc_content", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
-	if (file < 1)
-	{
-		ft_printf("%s", HERE_DOC_ERROR);
-		exit (1);
-	}
 	while (true)
 	{
 		write(1, "pipe heredoc> ", 14);
@@ -67,6 +52,27 @@ void	get_heredoc_file(char *limiter, t_pipex *pipex)
 		free(buf);
 	}
 	free(buf);
+}
+
+/**
+ * @brief	Reads input from the user and saves it to a file until a delimiter
+ * 			is entered.
+ * @param	limiter	The delimiter string to signal the end of input.
+ * @param	pipex	A pointer to the t_pipex structure containing file and pipe
+ * 					information.
+ * @return	void
+ */
+void	get_heredoc_file(char *limiter, t_pipex *pipex)
+{
+	int		file;
+
+	file = open(".heredoc_content", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
+	if (file < 1)
+	{
+		ft_printf("%s", HERE_DOC_ERROR);
+		exit (1);
+	}
+	get_heredoc_input(limiter, file);
 	close(file);
 	pipex->input = open(".heredoc_content", O_RDONLY);
 	if (pipex->input < 0)

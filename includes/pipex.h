@@ -6,7 +6,7 @@
 /*   By: rrouille <rrouille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:29:52 by rrouille          #+#    #+#             */
-/*   Updated: 2023/02/18 15:15:06 by rrouille         ###   ########.fr       */
+/*   Updated: 2023/02/18 15:28:17 by rrouille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,12 @@
 # include <sys/wait.h>
 # include "../mylib/includes/mylib.h"
 
-# define RED "\e[31m"
-# define RESET "\e[K"
-
-# define ARGUMENT_ERROR RED"Invalid number of arguments.\n"RESET
-# define INPUT_ERROR RED"Input file does not exist.\n"RESET
-# define OUTPUT_ERROR RED"Invalid output file.\n"RESET
-# define HERE_DOC_ERROR RED"Temporary file creation or editing error for \
-here-document.\n"RESET
-# define MISSING_ENV RED"Missing environment variable.\n"RESET
+# define ARGUMENT_ERROR "\e[31mInvalid number of arguments.\n\e[K"
+# define INPUT_ERROR "\e[31mInput file does not exist.\n\e[K"
+# define OUTPUT_ERROR "\e[31mInvalid output file.\n\e[K"
+# define HERE_DOC_ERROR "\e[31mTemporary file creation or editing error for \
+here-document.\n\e[K"
+# define MISSING_ENV "\e[31mMissing environment variable.\n\e[K"
 
 typedef struct s_pipex
 {
@@ -51,6 +48,7 @@ void	free_ressources(t_pipex *pipex);
 void	free_pipex(t_pipex *pipex);
 void	get_heredoc_file(char *limiter, t_pipex *pipex);
 int		check_command_arguments(char *output_fd_argument, t_pipex *pipex);
+char	*get_command_path(char **path_var, char *command);
 void	open_input_file(char **argv, t_pipex *pipex);
 void	open_output_file(char *argv, t_pipex *pipex);
 char	*find_path_env(char **env);
